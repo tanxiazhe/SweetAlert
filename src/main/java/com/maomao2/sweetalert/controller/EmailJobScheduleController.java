@@ -1,7 +1,7 @@
 package com.maomao2.sweetalert.controller;
 
 import com.maomao2.sweetalert.entity.Mail;
-import com.maomao2.sweetalert.service.SchedulerService;
+import com.maomao2.sweetalert.service.ScheduleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +14,14 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/Schedulers")
-public class EmailJobSchedulerController {
+public class EmailJobScheduleController {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Autowired
-  private SchedulerService schedulerService;
+  private ScheduleService scheduleService;
 
   @PostMapping
-  public void schedulerEmail(@RequestBody Mail mail) {
+  public void scheduleEmail(@RequestBody Mail mail) {
     Date schedulerDate = mail.getDate();
     Date currentDateTime = new Date();
     if (schedulerDate.before(currentDateTime)) {
@@ -29,6 +29,6 @@ public class EmailJobSchedulerController {
       return;
     }
     logger.info("Prepare to scheduler job");
-    schedulerService.schedulerJob(mail,schedulerDate);
+    scheduleService.scheduleJob(mail,schedulerDate);
   }
 }
